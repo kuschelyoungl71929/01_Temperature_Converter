@@ -52,26 +52,59 @@ class Converter:
         self.help_button = Button(self.hc_button_frame, text="Help", width=5, command=self.help)
         self.help_button.grid(row=0, column=1, padx=5)
 
+        # help command
     def help(self):  
         print("help")
         get_help = Help(self)
         get_help.help_text.configure(text="Help text")
-
-    def temp_convert(self,to): 
-        print(to)
-
+       
+        #temp converter
+    def temp_convert(self, low): 
+        
         error= "#F3B6B6"
 
         to_convert = self.input_box.get()
         
+        
         try:
             to_convert = float(to_convert)
-            print("your brain is large")
+            has_errors = "no"
+
+            #fahrenheit
+            if low == -273 and to_convert >= low:
+                fahr = (to_convert * 9/5) + 32
+                to_convert = self.rounding(to_convert)
+                fahr = self.rounding(fahr)
+                answer = "{} C° is {} F°".format(to_convert, fahr)
+            #celsius
+            elif low == -459 and to_convert >= low:
+                cels = (to_convert - 32) * 5/9
+                to_convert = self.rounding(to_convert)
+                cels = self.rounding(cels)
+                answer = "{} F° is {} C°".format(to_convert, cels)
+            #too cold
+            else :
+                answer = "Too Cold"
+                has_errors = "yes"
+
+            if has_errors == "no":
+                self.conversion_outcome.configure(text=answer, font="Arial 14", fg="black")
+                self.input_box.configure(bg="white")
+            else:
+                self.conversion_outcome.configure(text=answer, font="Arial 14", fg="red")
+                self.input_box.configure(bg=error)
 
         except ValueError: 
             self.conversion_outcome.configure(text="Please enter a number", font="Arial 14", fg="#CE1B1B")
             self.input_box.configure(bg=error)
 
+    def rounding(self, to_round):
+        if to_round%1 == 0:
+            rounded = int(to_round)
+        else:
+            rounded = round(to_round, 1)
+
+        return rounded
 
 class Help: 
     def __init__(self, partner): 
