@@ -44,8 +44,8 @@ class Converter:
         self.hc_button_frame = Frame(self.converter_frame, bg=bkg_colour)
         self.hc_button_frame.grid(row=10, pady=10)
 
-        #calc historuy button
-        self.calch_button = Button(self.hc_button_frame, text="Calculation History", width=15)
+        #calc history button
+        self.calch_button = Button(self.hc_button_frame, text="Calculation History", width=15, command=self.history)
         self.calch_button.grid(row=0, column=0, padx=5)
 
         # help Button
@@ -57,6 +57,11 @@ class Converter:
         print("help")
         get_help = Help(self)
         get_help.help_text.configure(text="Help text")
+
+    def history(self):
+        print("history request")
+        retrieve_history= history(self)
+        retrieve_history.history_text.configure(text="History")
        
         #temp converter
     def temp_convert(self, low): 
@@ -141,8 +146,19 @@ class Help:
         partner.help_button.config(state=NORMAL)
         self.help_box.destroy()
 
+class history:
+    def __init__(self, parent):
 
+        #light cyan
+        bkg_colour = "#9fe5d9"
 
+        #opens a new window
+        self.history_box = Toplevel()
+
+        # frame
+        self.history_frame = Frame(width=400, height=300, bg=bkg_colour, padx=10, pady=10)
+        self.history_frame.grid()
+        
 
        
  # main routine
