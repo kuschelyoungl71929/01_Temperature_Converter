@@ -1,6 +1,7 @@
 from tkinter import * 
 from functools import partial #for removing window
 import random
+import re
 
 class Converter:
     def __init__(self, parent):
@@ -37,7 +38,7 @@ class Converter:
         self.conv_f_button.grid(row=0, column=1, padx=5)
 
         #Conv label
-        self.conversion_outcome = Label(self.converter_frame, text="Conversion", font="Arial 14", wrap=250, justify=LEFT, bg=bkg_colour, padx=30, pady=30)
+        self.conversion_outcome = Label(self.converter_frame, text="Conversion goes here", font="Arial 14", wrap=250, justify=LEFT, bg=bkg_colour, padx=30, pady=30)
         self.conversion_outcome.grid(row=7)
 
         #help and calc his buttons
@@ -50,7 +51,7 @@ class Converter:
 
         # help Button
         self.help_button = Button(self.hc_button_frame, text="Help", width=5, command=self.help)
-        self.help_button.grid(row=0, column=1, padx=5)
+        self.help_button.grid(row=0, column=1, padx=5) 
 
         # help command
     def help(self):  
@@ -147,7 +148,7 @@ class Help:
         self.help_box.destroy()
 
 class history:
-    def __init__(self, parent):
+    def __init__(self, partner):
 
         #light cyan
         bkg_colour = "#9fe5d9"
@@ -156,8 +157,99 @@ class history:
         self.history_box = Toplevel()
 
         # frame
-        self.history_frame = Frame(width=400, height=300, bg=bkg_colour, padx=10, pady=10)
+        self.history_frame = Frame(self.history_box, width=400, height=300, bg=bkg_colour, padx=10, pady=20)
+        
         self.history_frame.grid()
+
+        #history Heading 0
+        self.history_converter_label = Label(self.history_frame, text="History", font=("Arial 13 bold"), bg="#9fe5d9", padx=10, pady=10)
+       
+        self.history_converter_label.grid(row=0)
+
+     #retrieve full history button
+        self.full_history = Button(self.history_frame, text="Retrieve Full History", command=(self.write_to_file))
+        self.full_history.grid(row=4, pady=10)
+        
+
+        #History Text 1 
+        self.history_text = Label(self.history_frame, text="", justify=LEFT, width=40, bg=bkg_colour , wrap=250)
+        self.history_text.grid(row=1)
+        
+        #disable history button
+        partner.calch_button.config(state=DISABLED)
+
+        #Dismiss button 2 
+        self.history_dismiss_button = Button(self.history_frame, text="Exit", width=5, command=partial(self.close_button, partner))
+        self.history_dismiss_button.grid(row=5,pady=10)
+
+        
+    
+    def write_to_file(self):
+        #opens a new window
+        self.input_filename = Toplevel()
+        
+        self.input_frame = Frame(self.input_filename, width=400, height=300, bg="#9fe5d9", padx=10, pady=20)
+        self.input_frame.grid()
+        
+        self.input_text = Label(self.input_frame, text="Input Filename:")
+        self.input_text.grid(row=1)
+        #input box filename
+        self.filename_input = Entry(self.input_frame, width=20, font="Arial 14 bold")
+        self.filename_input.grid(row=2)
+
+        #History data
+        data = ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh']
+            #assumed valid data input for file name
+        has_error = "yes"
+        while has_error == "yes":
+        
+            filename = self.filename_input.get()
+        has_error = "no"
+
+
+        valid = "[A-za-z0-9_]"
+        for letter in filename:
+            if re.match(valid, letter):
+            
+                continue
+        
+            elif letter == " ":
+                problem = ("No spaces allowed.")
+       
+            else:
+                problem = ("No {}'s allowed.".format(letter))
+
+                has_error = "yes"
+
+        if filename == "":
+            problem= "Please enter a filename."
+            has_error = "yes"
+
+        if has_error == "yes":
+           return  ("Invalid filename - {}".format(problem))
+            #("Invalid filename - {}".format(problem))
+        else:
+            #("Done.")
+
+     #text file
+         filename = filename + ".txt"
+#make the file
+        f = open(filename, "w+")
+#add new line for each item
+        for item in data:
+            f.write(item + "\n")
+#close the file
+        f.close
+
+
+    
+    
+
+ #close help function
+    
+    def close_button(self, partner):
+        partner.calch_button.config(state=NORMAL)
+        self.history_box.destroy()
         
 
        
