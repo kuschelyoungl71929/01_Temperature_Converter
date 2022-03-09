@@ -17,11 +17,11 @@ class Converter:
         self.converter_frame.grid()
         
         # Heading
-        self.converter_label = Label(self.converter_frame, text="Temperature Converter", font=("Arial 18 bold"), bg=bkg_colour, padx=10, pady=30)
+        self.converter_label = Label(self.converter_frame, text="Temperature Converter", font=("Arial 18 bold"), bg="#e7f5e8", padx=10, pady=10)
         self.converter_label.grid(row=1)
         
         # User information/Instructions
-        self.user_i = Label(self.converter_frame, text="Enter the temperature you would like to convert and click the button with the unit sytem you want to convert it to.", font="arial 10 italic", wrap=250, justify=LEFT, bg=bkg_colour, pady=10)
+        self.user_i = Label(self.converter_frame, text="Enter the temperature you would like to convert and click the button with the unit sytem you want to convert it to.", font="arial 10 italic", wrap=250, justify=LEFT, bg=bkg_colour, pady=20)
         self.user_i.grid(row=2)
 
         # Temper input box
@@ -30,7 +30,7 @@ class Converter:
        
         #button frame
         self.conv_button_frame = Frame(self.converter_frame, bg=bkg_colour)
-        self.conv_button_frame.grid(row=5, pady=10)
+        self.conv_button_frame.grid(row=5, pady=20)
 
         #Centigrade button
         self.conv_c_button = Button(self.conv_button_frame, text="Centigrade", command=lambda: self.temp_convert(-459))
@@ -41,12 +41,12 @@ class Converter:
         self.conv_f_button.grid(row=0, column=1, padx=5)
 
         #Conv label
-        self.conversion_outcome = Label(self.converter_frame, text="Conversion goes here", font="Arial 14", wrap=250, justify=LEFT, bg=bkg_colour, padx=30, pady=30)
+        self.conversion_outcome = Label(self.converter_frame, text="Conversion goes here", font="Arial 13", wrap=250, justify=LEFT, bg="#e7f5e8", padx=15, pady=20)
         self.conversion_outcome.grid(row=7)
 
         #help and calc his buttons
         self.hc_button_frame = Frame(self.converter_frame, bg=bkg_colour)
-        self.hc_button_frame.grid(row=10, pady=10)
+        self.hc_button_frame.grid(row=10, pady=20)
 
         #calc history button
         self.calch_button = Button(self.hc_button_frame, text="Calculation History", width=15, command=lambda: self.history(self.all_calc_list))
